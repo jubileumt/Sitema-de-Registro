@@ -1,0 +1,103 @@
+using System;
+using System.Security.Cryptography;
+
+class Program
+{
+
+    public class Usuario
+    {
+        public string NOME;
+        public string IDADE;
+        public string CPF;
+    }
+    public static void Atualizar(Usuario[] usuarios, string cpf)
+    {
+        bool y = false;
+        foreach(var atualizar in usuarios)
+        {
+            if(atualizar !=null && atualizar.CPF == cpf)
+            {
+                Console.WriteLine("Usuario encontrado");
+                Console.Write("Digite um novo nome:");
+                string nome = Console.ReadLine();
+                Console.Write("Digite uma nova idade:");
+                string idade = Console.ReadLine();
+                atualizar.NOME = nome;
+                atualizar.IDADE = idade;
+                y = true;
+            }
+        }
+        if (y == false) { Console.WriteLine("Cadastro nao encontrado!"); }
+    }
+    public static int Procurar(Usuario[] usuarios,string Cpf)
+    {
+        bool x = false;
+        foreach(var procurar in usuarios)
+        {
+            if (procurar != null && procurar.CPF == Cpf) {
+                Console.WriteLine("CPF encontrado");
+                Console.WriteLine("Nome:"+procurar.NOME);
+                Console.WriteLine("Idade:" + procurar.IDADE);
+                Console.WriteLine("CPF:" + procurar.CPF);
+                x = true;
+            }
+        }
+        if (x == false) { Console.WriteLine("CPF não encontrado!"); }
+            return 1;
+    }
+    public static void Regis(Usuario[] usuarios, string Nome, string Idade, string Cpf)
+    {
+        Usuario usuario = new Usuario
+        {
+            NOME = Nome,
+            IDADE = Idade,
+            CPF = Cpf
+        };
+        foreach (var verificar in usuarios)
+        {
+            if (verificar != null && verificar.CPF == Cpf)
+            {
+                Console.WriteLine("CPF ja registrado");
+                //return 0;
+            }
+        }
+        var novo_Usuario = new Usuario { NOME = Nome, IDADE = Idade, CPF = Cpf };
+        usuarios[Array.IndexOf(usuarios, null)] = novo_Usuario;
+        Console.WriteLine("registrado com sucesso");
+
+    }
+    public static void Main(string[] args)
+    {
+        var usuarios = new Usuario[10];
+        while (true)
+        {
+            Console.WriteLine("1-Para fazer registro.");
+            Console.WriteLine("2-Para procurar registro.");
+            Console.WriteLine("3-Para atualizar registro");
+            Console.Write("Escolha:");
+            int opc = int.Parse(Console.ReadLine());
+            if (opc == 1)
+            {
+                Console.Write("Ecreva seu nome:");
+                string nome = Console.ReadLine();
+                Console.Write("Ecreva sua idade:");
+                string idade = Console.ReadLine();
+                Console.Write("Ecreva seu CPF:");
+                string cpf = Console.ReadLine();
+                Regis(usuarios, nome, idade, cpf);
+            }
+            if (opc == 2)
+            {
+                Console.Write("Digite o cpf que desaja procurar:");
+                string cpf =Console.ReadLine();
+                Procurar(usuarios,cpf);
+            }
+            if (opc == 3)
+            {
+                Console.Write("Informe o cpf do usuario que deseja atualizar cadastro");
+                string cpf = Console.ReadLine();
+                Atualizar(usuarios, cpf);
+            }
+        }
+    }
+}
